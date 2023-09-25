@@ -1,0 +1,43 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Submission_GithubUser" parent="Theme.Material3.DayNight">
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+    </style>
+
+    <style name="Theme.Submission_GithubUser" parent="Base.Theme.Submission_GithubUser" />
+
+
+    <style name="Theme.Submission_GithubUser.CircleImage">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="ImageLogo">
+        <item name="android:src">@drawable/github_logo</item>
+        <item name="android:layout_width">102dp</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="contentDescription">@string/github_logo</item>
+    </style>
+
+    <style name="Stats">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:text">@string/_24</item>
+    </style>
+
+    <style name="Theme.SplashScreen" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    </style>
+
+    <style name="TextCard">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+</resources>

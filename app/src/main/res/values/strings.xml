@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Submission_GithubUser</string>
+    <string name="github_name">Name Github</string>
+    <string name="username">Username</string>
+    <string name="tab_1">Followers</string>
+    <string name="tab_2">Following</string>
+    <string name="github_logo">Logo Github</string>
+    <string name="bullet">\u2022</string>
+    <string name="search">Search</string>
+    <string name="search_icon">Search Icon</string>
+    <string name="_24">24</string>
+    <string name="follower">Followers</string>
+    <string name="following">Following</string>
+    <string name="detail_user">Detail User</string>
+    <string name="repository">Repository</string>
+    <string name="about">About Me</string>
+    <string name="bio">My Bio</string>
+    <string name="name">Fitria Widyani</string>
+    <string name="email">fitrianiwidyaf@gmail.com</string>
+    <string name="favorite_icon">Favorite Icon</string>
+    <string name="theme">Theme</string>
+    <string name="dark_mode">Dark Mode</string>
+</resources>
