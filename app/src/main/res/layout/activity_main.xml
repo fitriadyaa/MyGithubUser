@@ -6,47 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".ui.main.MainActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarHome"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/search_text"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="?attr/colorOnPrimary"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <!-- GitHub Logo (Left) -->
-        <ImageView
-            android:id="@+id/iv_github_logo"
-            style="@style/ImageLogo"
-            android:layout_gravity="start|center_vertical"
-            android:contentDescription="@string/github_logo"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
-        <!-- Space (Center) -->
-        <Space
-            android:id="@+id/spaceCenter"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toEndOf="@+id/iv_github_logo"
-            app:layout_constraintEnd_toStartOf="@+id/iv_favorite"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
-
-        <!-- Favorite Icon (Right) -->
-        <ImageView
-            android:id="@+id/iv_favorite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_favorite_24"
-            android:contentDescription="@string/favorite_icon"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" />
-    </androidx.appcompat.widget.Toolbar>
-
+        android:text="@string/cari"
+        android:textSize="14sp"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="0dp" />
 
     <FrameLayout
         android:id="@+id/frameLayout"
@@ -56,10 +24,9 @@
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarHome">
+        app:layout_constraintTop_toBottomOf="@id/search_text">
 
         <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -69,6 +36,16 @@
                 android:layout_height="match_parent"
                 android:hint="@string/search"
                 android:inputType="text" />
+
+            <ImageView
+                android:id="@+id/btnClearSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center_vertical"
+                android:layout_marginEnd="16dp"
+                android:contentDescription="@string/clear"
+                android:src="@drawable/ic_clear_24"
+                android:visibility="gone" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

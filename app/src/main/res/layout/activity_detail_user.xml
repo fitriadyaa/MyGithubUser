@@ -27,7 +27,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/Theme.Submission_GithubUser.CircleImage"
+        app:shapeAppearanceOverlay="@style/Base.Theme.Submission_GithubUser.CircleImage"
         tools:src="@tools:sample/avatars" />
 
     <TextView
@@ -155,7 +155,7 @@
         android:contentDescription="@string/follower"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"/>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
@@ -167,13 +167,14 @@
         app:layout_constraintTop_toBottomOf="@+id/tabs" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floating_action_button"
+
+        android:id="@+id/btnFavorite"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:contentDescription="@string/favorite_icon"
-        app:srcCompat="@drawable/c_favorite_border_24"
+        app:srcCompat="@drawable/ic_favorite_border_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:ignore="MissingConstraints" />

@@ -4,9 +4,9 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.fitriadyaa.submission_githubuser.data.local.entity.UserEntity
+import com.fitriadyaa.submission_githubuser.data.local.entity.User
 
-@Database(entities = [UserEntity::class], version = 1, exportSchema = false)
+@Database(entities = [User::class], version = 1)
 abstract class UserDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
 
@@ -14,16 +14,15 @@ abstract class UserDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: UserDatabase? = null
 
-        @JvmStatic
         fun getDatabase(context: Context): UserDatabase {
             return INSTANCE ?: synchronized(this) {
-                Room.databaseBuilder(
-                    context.applicationContext,
+                val instance = Room.databaseBuilder(
+                    context.applicationContext, // Use applicationContext to avoid memory leaks
                     UserDatabase::class.java,
-                    "note_database"
-                ).build().also {
-                    INSTANCE = it
-                }
+                    "favorite_database"
+                ).build()
+                INSTANCE = instance
+                instance
             }
         }
     }

@@ -1,15 +1,30 @@
 package com.fitriadyaa.submission_githubuser.data.remote
 
+import com.fitriadyaa.submission_githubuser.BuildConfig
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-object ApiConfig {
-    private const val BASE_URL = "https://api.github.com/"
-
-    private val retrofit: Retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-
-    val apiInstance: ApiService? = retrofit.create(ApiService::class.java)
+class ApiConfig {
+    companion object {
+        fun getApiService(): ApiService{
+            val authInterceptor = Interceptor { chain ->
+                val req = chain.request()
+                val requestHeaders = req.newBuilder()
+                    .addHeader("Authorization", "bearer ${BuildConfig.KEY}")
+                        .build()
+                            chain.proceed(requestHeaders)
+                    }
+                        val client = OkHttpClient.Builder()
+                    .addInterceptor(authInterceptor)
+                    .build()
+                val retrofit = Retrofit.Builder()
+                    .baseUrl("https://api.github.com/")
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .client(client)
+                    .build()
+                return retrofit.create(ApiService::class.java)
+        }
+    }
 }

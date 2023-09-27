@@ -19,7 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:shapeAppearanceOverlay="@style/Theme.Submission_GithubUser.CircleImage"
+        app:shapeAppearanceOverlay="@style/Base.Theme.Submission_GithubUser.CircleImage"
         tools:src="@tools:sample/avatars" />
 
     <TextView

@@ -12,13 +12,20 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Submission_GithubUser"
+        android:theme="@style/Base.Theme.Submission_GithubUser"
         tools:targetApi="31">
         <activity
-            android:name=".ui.settings.SettingsActivity"
+            android:name=".ui.favorite.FavoriteActivity"
+            android:label="@string/favorite"
+            android:parentActivityName=".ui.main.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.SplashScreenActivity"
+            android:name=".ui.settings.SettingsActivity"
+            android:exported="false"
+            android:label="@string/settings"
+            android:parentActivityName=".ui.main.MainActivity"/>
+        <activity
+            android:name=".ui.splash.SplashScreenActivity"
             android:exported="true"
             android:theme="@style/Theme.SplashScreen">
             <intent-filter>
@@ -34,8 +41,7 @@
             android:parentActivityName=".ui.main.MainActivity" />
         <activity
             android:name=".ui.main.MainActivity"
-            android:exported="false"
-            android:theme="@style/Theme.Material3.DayNight.NoActionBar"></activity>
+            android:exported="false" />
     </application>
 
 </manifest>

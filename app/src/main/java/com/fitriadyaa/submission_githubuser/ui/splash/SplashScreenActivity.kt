@@ -1,4 +1,4 @@
-package com.fitriadyaa.submission_githubuser.ui
+package com.fitriadyaa.submission_githubuser.ui.splash
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

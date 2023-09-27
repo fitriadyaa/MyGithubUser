@@ -1,16 +1,28 @@
 package com.fitriadyaa.submission_githubuser.ui.main
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.KeyEvent
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.fitriadyaa.submission_githubuser.R
 import com.fitriadyaa.submission_githubuser.adapter.UserAdapter
+import com.fitriadyaa.submission_githubuser.data.local.datastore.SettingPreferences
+import com.fitriadyaa.submission_githubuser.data.local.datastore.dataStore
 import com.fitriadyaa.submission_githubuser.databinding.ActivityMainBinding
 import com.fitriadyaa.submission_githubuser.model.UserModel
 import com.fitriadyaa.submission_githubuser.ui.detail.DetailUserActivity
+import com.fitriadyaa.submission_githubuser.ui.favorite.FavoriteActivity
+import com.fitriadyaa.submission_githubuser.ui.settings.SettingsActivity
+import com.fitriadyaa.submission_githubuser.viewmodel.MainViewModel
+import com.fitriadyaa.submission_githubuser.viewmodel.SettingViewModel
+import com.fitriadyaa.submission_githubuser.viewmodel.ViewModelFactory
 
 class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
@@ -19,10 +31,33 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
     private lateinit var adapter: UserAdapter
 
+    @SuppressLint("ResourceType", "InflateParams")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val actionBar = supportActionBar
+        actionBar?.setDisplayShowCustomEnabled(true)
+        actionBar?.setDisplayShowTitleEnabled(false)
+        actionBar?.setDisplayHomeAsUpEnabled(false)
+
+        val customActionBarView = layoutInflater.inflate(R.layout.custom_action_bar, null)
+        actionBar?.customView = customActionBarView
+
+        val pref = SettingPreferences.getInstance(application.dataStore)
+        val darkViewModel = ViewModelProvider(this, ViewModelFactory(pref)).get(
+            SettingViewModel::class.java
+        )
+
+        darkViewModel.getThemeSettings().observe(this) { isDarkModeActive: Boolean ->
+            if (isDarkModeActive) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+        }
 
         adapter = UserAdapter()
         adapter.setOnItemClickCallback(object : UserAdapter.OnItemClickCallback{
@@ -85,5 +120,26 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         _binding = null
         super.onDestroy()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_favorite -> {
+                val intent = Intent(this, FavoriteActivity::class.java)
+                startActivity(intent)
+                true
+            }
+            R.id.action_settings -> {
+                val intent = Intent(this, SettingsActivity::class.java)
+                startActivity(intent)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

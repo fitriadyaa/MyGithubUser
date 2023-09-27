@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.fitriadyaa.submission_githubuser.data.local.entity.User
 import com.fitriadyaa.submission_githubuser.databinding.ItemUserBinding
 import com.fitriadyaa.submission_githubuser.model.UserModel
 
@@ -33,7 +34,7 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>(){
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setList(users: ArrayList<UserModel>){
+    fun setList(users: List<UserModel>) {
         list.clear()
         list.addAll(users)
         notifyDataSetChanged()

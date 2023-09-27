@@ -16,6 +16,8 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        buildConfigField("String", "KEY", "\"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\"")
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -42,6 +44,13 @@ android {
 }
 
 dependencies {
+
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+
+    //coroutine support
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0") //viewModelScope
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.0") //liveData
+
     //Data Store
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
@@ -66,8 +75,6 @@ dependencies {
     // Lottie
     implementation("com.airbnb.android:lottie:5.2.0")
 
-    // Android
-    implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.android.gms:play-services-base:18.2.0")
