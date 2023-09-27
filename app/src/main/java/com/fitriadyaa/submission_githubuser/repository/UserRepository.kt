@@ -1,36 +1,40 @@
 package com.fitriadyaa.submission_githubuser.repository
 
-import android.content.Context
 import androidx.lifecycle.LiveData
-import com.fitriadyaa.submission_githubuser.data.local.entity.User
+import com.fitriadyaa.submission_githubuser.data.local.entity.UserEntity
 import com.fitriadyaa.submission_githubuser.data.local.room.UserDao
-import com.fitriadyaa.submission_githubuser.data.local.room.UserDatabase
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 
-class UserRepository(context: Context) {
-    private val mUserDao: UserDao
-    private val executorService: ExecutorService = Executors.newSingleThreadExecutor()
+class UserRepository(
+    private val userDao: UserDao,
+) {
 
-    init {
-        val db = UserDatabase.getDatabase(context)
-        mUserDao = db.userDao()
+    fun getFavoriteUser(): LiveData<List<UserEntity>>{
+        return userDao.getAllFavorite()
     }
 
-    fun getAllFavoriteUser(): LiveData<List<User>> = mUserDao.getAllUsers()
-
-    fun getFavoriteUserByUsername(username: String): LiveData<User> =
-        mUserDao.getFavoriteUserByUsername(username)
-
-    fun insert(user: User) {
-        executorService.execute { mUserDao.insert(user) }
+    fun setFavorite(username: String, avatar : String, id: Int, favoritesState: Boolean){
+        val user = UserEntity(id, username, avatar, favoritesState)
+//        favorites.isFavorite = favoritesState
+        userDao.insert(user)
     }
 
-    fun delete(user: User) {
-        executorService.execute { mUserDao.delete(user) }
+    fun deleteFavorite(id : Int){
+        userDao.delete(id)
     }
 
-    fun update(user: User) {
-        executorService.execute { mUserDao.update(user) }
+    suspend fun check(id: Int): Int {
+        return userDao.check(id)
+    }
+    companion object{
+        var username = "KEY_DATA"
+
+        @Volatile
+        private var instance: UserRepository? = null
+        fun getInstance(
+            userDao: UserDao
+        ) : UserRepository = instance ?: synchronized(this){
+            instance ?: UserRepository(userDao)
+        }.also { instance = it}
     }
 }
+

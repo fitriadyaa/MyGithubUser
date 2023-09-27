@@ -5,26 +5,36 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.fitriadyaa.submission_githubuser.R
 import com.fitriadyaa.submission_githubuser.adapter.SectionPagerAdapter
+import com.fitriadyaa.submission_githubuser.data.local.entity.UserEntity
+import com.fitriadyaa.submission_githubuser.data.local.room.UserDatabase
 import com.fitriadyaa.submission_githubuser.databinding.ActivityDetailUserBinding
-import com.fitriadyaa.submission_githubuser.repository.UserRepository
 import com.fitriadyaa.submission_githubuser.viewmodel.DetailUserViewModel
-import com.fitriadyaa.submission_githubuser.viewmodel.DetailUserViewModelFactory
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.fitriadyaa.submission_githubuser.viewmodel.FavoriteViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class DetailUserActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_USERNAME = "extra_username"
+        const val EXTRA_ID = "extra_id"
+        const val EXTRA_AVATAR = "extra_avatar"
     }
 
     private lateinit var binding: ActivityDetailUserBinding
-    private lateinit var viewModel: DetailUserViewModel
+    private val viewModel: DetailUserViewModel by viewModels()
     private lateinit var username: String
+    private lateinit var avatar: String
+    private val favoriteViewModel: FavoriteViewModel by viewModels()
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,37 +42,33 @@ class DetailUserActivity : AppCompatActivity() {
         binding = ActivityDetailUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         username = intent.getStringExtra(EXTRA_USERNAME) ?: ""
+        val id = intent.getIntExtra(EXTRA_ID, 0)
+        avatar = intent.getStringExtra(EXTRA_AVATAR) ?: ""
 
         if (username.isEmpty()) {
             Toast.makeText(this, "Username not found.", Toast.LENGTH_SHORT).show()
             finish()
         }
 
-        setupViewModel()
         setupUI()
-        setupFavoriteButton()
-    }
 
-    private fun setupViewModel() {
-        val viewModelFactory = DetailUserViewModelFactory(userRepository = UserRepository(application))
-        viewModel = ViewModelProvider(this, viewModelFactory)[DetailUserViewModel::class.java]
 
-        viewModel.checkIsFavorite(username)
-
-        viewModel.checkIsFavorite(username)
-
-        viewModel.isFavorite.observe(this) { isFavorite ->
-            val ivFavorite = findViewById<FloatingActionButton>(R.id.btnFavorite)
-            if (isFavorite) {
-                // User is a favorite, update the UI accordingly (e.g., change the icon to filled)
-                ivFavorite.setImageResource(R.drawable.ic_favorite_24)
-            } else {
-                // User is not a favorite, update the UI accordingly (e.g., change the icon to outlined)
-                ivFavorite.setImageResource(R.drawable.ic_favorite_border_24)
+        binding.btnFavorite.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                val count = favoriteViewModel.check(id)
+                withContext(Dispatchers.Main) {
+                    if (count > 0) {
+                        favoriteViewModel.deleteFavorite(id)
+                    } else {
+                        favoriteViewModel.saveFavorite(username, avatar, id)
+                    }
+                }
             }
         }
     }
+
 
     private fun setupUI() {
         val bundle = Bundle()
@@ -71,7 +77,6 @@ class DetailUserActivity : AppCompatActivity() {
             viewModel.setUserDetail(username)
             viewModel.getUserDetail().observe(this) { userDetail ->
                 userDetail?.let {
-                    // Use safe calls to access properties
                     binding.tvName.text = it.name ?: ""
                     binding.tvUsername.text = it.login ?: ""
                     binding.tvRepository.text = (it.publicRepos ?: 0).toString()
@@ -97,16 +102,6 @@ class DetailUserActivity : AppCompatActivity() {
         sectionPagerAdapter.setupTabs()
     }
 
-
-    private fun setupFavoriteButton() {
-        val btnFavorite = findViewById<FloatingActionButton>(R.id.btnFavorite)
-        btnFavorite.setOnClickListener {
-            if (username.isNotEmpty()) {
-                viewModel.toggleFavoriteStatus(username)
-            }
-        }
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -115,6 +110,22 @@ class DetailUserActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun favoriteIcon(isFavorite: Boolean) {
+        binding.btnFavorite.setImageDrawable(
+            if (isFavorite) {
+                ContextCompat.getDrawable(
+                    applicationContext,
+                    R.drawable.ic_favorite_24
+                )
+            } else {
+                ContextCompat.getDrawable(
+                    applicationContext,
+                    R.drawable.ic_favorite_border_24
+                )
+            }
+        )
     }
 
     private fun showLoading(state: Boolean) {

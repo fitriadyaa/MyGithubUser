@@ -2,27 +2,26 @@ package com.fitriadyaa.submission_githubuser.data.local.room
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
-import com.fitriadyaa.submission_githubuser.data.local.entity.User
+import com.fitriadyaa.submission_githubuser.data.local.entity.UserEntity
 
 @Dao
 interface UserDao {
-    @Insert
-    fun insert(user: User)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insert(user: UserEntity)
 
-    @Update
-    fun update(user: User)
+    @Query("DELETE from users where users.id = :id")
+    fun delete(id: Int): Int
 
-    @Delete
-    fun delete(user: User)
+    @Query("SELECT count(*) from users where users.id = :id")
+    fun check(id: Int): Int
 
-    @Query("SELECT * FROM users")
-    fun getAllUsers(): LiveData<List<User>>
+    @Query("SELECT * from users where isFavorite = 1")
+    fun getAllFavorite(): LiveData<List<UserEntity>>
 
-    @Query("SELECT * FROM users WHERE name = :username")
-    fun getFavoriteUserByUsername(username: String): LiveData<User>
+    @Query("SELECT EXISTS(SELECT * FROM users WHERE username = :username)")
+    fun isFavorite(username: String): Boolean
 }
 

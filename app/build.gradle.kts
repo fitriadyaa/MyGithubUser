@@ -16,7 +16,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        buildConfigField("String", "KEY", "\"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\"")
+        buildConfigField("String", "KEY", "\"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\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -48,8 +48,9 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
     //coroutine support
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0") //viewModelScope
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.0") //liveData
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.0")
+    implementation("androidx.activity:activity-ktx:1.3.1")
 
     //Data Store
     implementation("androidx.datastore:datastore-preferences:1.0.0")
