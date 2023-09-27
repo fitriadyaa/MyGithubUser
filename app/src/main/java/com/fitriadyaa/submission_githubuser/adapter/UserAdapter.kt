@@ -11,7 +11,6 @@ import com.fitriadyaa.submission_githubuser.model.UserModel
 
 class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>(){
     private var list = mutableListOf<UserModel>()
-    private var userList: List<UserEntity> = emptyList()
     private var onItemClickCallback: OnItemClickCallback? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
@@ -40,10 +39,7 @@ class UserAdapter : RecyclerView.Adapter<UserAdapter.UserViewHolder>(){
         notifyDataSetChanged()
     }
 
-    fun setUserList(users: List<UserEntity>) {
-        userList = users
-        notifyDataSetChanged()
-    }
+
 
     inner class UserViewHolder(private val binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(user: UserModel){

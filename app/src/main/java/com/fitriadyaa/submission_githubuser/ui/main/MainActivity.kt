@@ -1,5 +1,6 @@
 package com.fitriadyaa.submission_githubuser.ui.main
 
+import com.fitriadyaa.submission_githubuser.ui.favorite.FavoriteActivity
 import android.annotation.SuppressLint
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -18,7 +19,6 @@ import com.fitriadyaa.submission_githubuser.data.local.datastore.dataStore
 import com.fitriadyaa.submission_githubuser.databinding.ActivityMainBinding
 import com.fitriadyaa.submission_githubuser.model.UserModel
 import com.fitriadyaa.submission_githubuser.ui.detail.DetailUserActivity
-import com.fitriadyaa.submission_githubuser.ui.favorite.FavoriteActivity
 import com.fitriadyaa.submission_githubuser.ui.settings.SettingsActivity
 import com.fitriadyaa.submission_githubuser.viewmodel.MainViewModel
 import com.fitriadyaa.submission_githubuser.viewmodel.SettingViewModel

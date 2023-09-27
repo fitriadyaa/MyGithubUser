@@ -42,7 +42,6 @@ class DetailUserActivity : AppCompatActivity() {
         binding = ActivityDetailUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         username = intent.getStringExtra(EXTRA_USERNAME) ?: ""
         val id = intent.getIntExtra(EXTRA_ID, 0)
         avatar = intent.getStringExtra(EXTRA_AVATAR) ?: ""
@@ -54,20 +53,38 @@ class DetailUserActivity : AppCompatActivity() {
 
         setupUI()
 
+        CoroutineScope(Dispatchers.IO).launch {
+            val count = favoriteViewModel.check(id)
+            withContext(Dispatchers.Main) {
+
+                if (count > 0) {
+                    favoriteIcon(true)
+
+                } else {
+                    favoriteIcon(false)
+                }
+            }
+        }
 
         binding.btnFavorite.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 val count = favoriteViewModel.check(id)
                 withContext(Dispatchers.Main) {
+
                     if (count > 0) {
+                        favoriteIcon(false)
                         favoriteViewModel.deleteFavorite(id)
                     } else {
+                        favoriteIcon(true)
                         favoriteViewModel.saveFavorite(username, avatar, id)
                     }
                 }
             }
         }
     }
+
+
+
 
 
     private fun setupUI() {
@@ -114,17 +131,14 @@ class DetailUserActivity : AppCompatActivity() {
 
     private fun favoriteIcon(isFavorite: Boolean) {
         binding.btnFavorite.setImageDrawable(
-            if (isFavorite) {
-                ContextCompat.getDrawable(
-                    applicationContext,
+            ContextCompat.getDrawable(
+                applicationContext,
+                if (isFavorite) {
                     R.drawable.ic_favorite_24
-                )
-            } else {
-                ContextCompat.getDrawable(
-                    applicationContext,
+                } else {
                     R.drawable.ic_favorite_border_24
-                )
-            }
+                }
+            )
         )
     }
 
