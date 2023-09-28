@@ -83,23 +83,21 @@ class DetailUserActivity : AppCompatActivity() {
         }
     }
 
-
-
-
-
     private fun setupUI() {
         val bundle = Bundle()
         bundle.putString(EXTRA_USERNAME, username)
+
+        showLoading(true)
         if (username != null) {
             viewModel.setUserDetail(username)
-            viewModel.getUserDetail().observe(this) { userDetail ->
-                userDetail?.let {
-                    binding.tvName.text = it.name ?: ""
-                    binding.tvUsername.text = it.login ?: ""
-                    binding.tvRepository.text = (it.publicRepos ?: 0).toString()
-                    binding.tvBio.text = it.bio ?: ""
-                    binding.tvFollower.text = (it.followers ?: 0).toString()
-                    binding.tvFollowing.text = (it.following ?: 0).toString()
+            viewModel.getUserDetail().observe(this) {
+                if (it != null) {
+                    binding.tvName.text = it.name
+                    binding.tvUsername.text = it.login
+                    binding.tvRepository.text = it.publicRepos.toString()
+                    binding.tvBio.text = it.bio
+                    binding.tvFollower.text = it.followers.toString()
+                    binding.tvFollowing.text = it.following.toString()
                     Glide.with(this@DetailUserActivity)
                         .load(it.avatarUrl)
                         .transition(DrawableTransitionOptions.withCrossFade())
@@ -108,11 +106,11 @@ class DetailUserActivity : AppCompatActivity() {
                     showLoading(false)
                 }
             }
-
         } else {
             Toast.makeText(this, "Username not found.", Toast.LENGTH_SHORT).show()
             finish()
         }
+
 
         val sectionPagerAdapter = SectionPagerAdapter(this, this, binding.tabs, binding.viewPager, bundle)
         binding.viewPager.adapter = sectionPagerAdapter

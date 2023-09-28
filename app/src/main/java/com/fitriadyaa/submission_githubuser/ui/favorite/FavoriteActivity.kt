@@ -42,7 +42,6 @@ class FavoriteActivity : AppCompatActivity() {
                 binding?.rvUser?.visibility = View.VISIBLE
                 adapter.submitList(users)
             } else {
-                binding?.favoriteProgressBar?.visibility = View.VISIBLE
                 binding?.rvUser?.visibility = View.INVISIBLE
             }
         }
@@ -59,17 +58,17 @@ class FavoriteActivity : AppCompatActivity() {
     }
 
     private fun showDataFavorite() {
-        val favoriteProgressBar = binding?.favoriteProgressBar
         val rvUser = binding?.rvUser
+        val tvNoData = binding?.tvNoData
 
         favoriteViewModel.getFavoriteUsers().observe(this) { users ->
             if (users.isNullOrEmpty()) {
-                favoriteProgressBar?.visibility = View.VISIBLE
+                tvNoData?.visibility = View.VISIBLE
                 rvUser?.visibility = View.INVISIBLE
             } else {
-                favoriteProgressBar?.visibility = View.GONE
                 rvUser?.visibility = View.VISIBLE
                 adapter.submitList(users)
+                tvNoData?.visibility = View.GONE
             }
         }
     }
